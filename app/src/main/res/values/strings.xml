@@ -1,4 +1,23 @@
 <resources>
-    <string name="app_name">AndroidLevel_1</string>
+    <string name="app_name">Color Effect</string>
     <string name="hello_geekbrains">Hello GeekWorld!</string>
+    <string name="show_description_button">Show Result</string>
+    <string name="textview_dummy_text">dummy text</string>
+    <string name="choose_a_color">Choose a color</string>
+    <string-array name="colours">
+        <item>red</item>
+        <item>yellow</item>
+        <item>green</item>
+        <item>orange</item>
+        <item>blue</item>
+        <item>purple</item>
+    </string-array>
+    <string-array name="descriptions">
+        <item>red description</item>
+        <item>yellow description</item>
+        <item>green description</item>
+        <item>orange description</item>
+        <item>blue description</item>
+        <item>purple description</item>
+    </string-array>
 </resources>

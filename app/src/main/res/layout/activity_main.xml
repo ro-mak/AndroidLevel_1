@@ -1,25 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ru.makproductions.androidlevel_1.MainActivity">
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
 
     <TextView
+        android:layout_marginTop="@dimen/standard_margin"
+        android:id="@+id/textview_choose_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_geekbrains"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingLeft="90dp"
-        android:paddingTop="20dp"
-        android:src="@drawable/geekbrains"
-        />
+        android:textSize="25sp"
+        android:text="@string/choose_a_color" />
 
-</android.support.constraint.ConstraintLayout>
+    <Spinner
+        android:layout_marginTop="@dimen/standard_margin"
+        android:id="@+id/spinner_colours"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:entries="@array/colours">
+    </Spinner>
+
+    <Button
+        android:layout_marginRight="@dimen/standard_padding"
+        android:layout_marginLeft="@dimen/standard_padding"
+        android:layout_marginTop="@dimen/standard_margin"
+        android:id="@+id/show_description_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/show_description_button"/>
+    <TextView
+        android:layout_marginTop="@dimen/standard_margin"
+        android:id="@+id/textview_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/textview_dummy_text"/>
+
+</LinearLayout>

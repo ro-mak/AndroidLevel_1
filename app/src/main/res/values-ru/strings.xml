@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Описание цветов</string>
+    <string name="hello_geekbrains">Привет ГикМир!</string>
+    <string name="show_description_button">Показать результат</string>
+    <string name="textview_dummy_text">идиотский текст</string>
+    <string name="choose_a_color">Выберите цвет</string>
+    <string-array name="colours">
+        <item>Красный</item>
+        <item>Желтый</item>
+        <item>Зеленый</item>
+        <item>Оранжевый</item>
+        <item>Синий</item>
+        <item>Фиолетовый</item>
+    </string-array>
+    <string-array name="descriptions">
+        <item>Красный описание</item>
+        <item>Желтый описание</item>
+        <item>Зеленый описание</item>
+        <item>Оранжевый описание</item>
+        <item>Синий описание</item>
+        <item>Фиолетовый описание</item>
+    </string-array>
+</resources>
