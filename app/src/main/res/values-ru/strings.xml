@@ -1,23 +1,22 @@
 <resources>
-    <string name="app_name">Описание цветов</string>
-    <string name="hello_geekbrains">Привет ГикМир!</string>
-    <string name="show_description_button">Показать результат</string>
-    <string name="textview_dummy_text">идиотский текст</string>
-    <string name="choose_a_color">Выберите цвет</string>
-    <string-array name="colours">
-        <item>Красный</item>
-        <item>Желтый</item>
-        <item>Зеленый</item>
-        <item>Оранжевый</item>
-        <item>Синий</item>
-        <item>Фиолетовый</item>
+    <string name="app_name">Прогнозик</string>
+    <string name="show_description_button">Какая погода в этом городе?</string>
+    <string name="textview_dummy_text"></string>
+    <string name="choose_a_city">Выберите город</string>
+    <string-array name="cities">
+        <item>Москва</item>
+        <item>Санкт-Петербург</item>
+        <item>Нью-Йорк</item>
+        <item>Брюссель</item>
+        <item>Бангкок</item>
+        <item>Пекин</item>
     </string-array>
     <string-array name="descriptions">
-        <item>Красный описание</item>
-        <item>Желтый описание</item>
-        <item>Зеленый описание</item>
-        <item>Оранжевый описание</item>
-        <item>Синий описание</item>
-        <item>Фиолетовый описание</item>
+        <item>+5 солнечно</item>
+        <item>+6 облачно</item>
+        <item>+10 туман</item>
+        <item>+3 облачно</item>
+        <item>+20 облачно</item>
+        <item>+18 солнечно</item>
     </string-array>
 </resources>

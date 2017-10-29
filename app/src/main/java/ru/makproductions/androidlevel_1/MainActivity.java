@@ -12,7 +12,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView descriptionText;
     private Button showDescriptionButton;
-    private Spinner spinnerForColours;
+    private Spinner spinnerForCities;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         descriptionText = (TextView) findViewById(R.id.textview_description);
         showDescriptionButton = (Button)findViewById(R.id.show_description_button);
-        spinnerForColours = (Spinner)findViewById(R.id.spinner_colours);
+        spinnerForCities = (Spinner)findViewById(R.id.spinner_colours);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setLogo(R.drawable.geekbrains);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             if(view.getId() == R.id.show_description_button){
-                String result = ColorSpec.getColorDescription(MainActivity.this,spinnerForColours.getSelectedItemPosition());
+                String result = CitiesSpec.getColorDescription(MainActivity.this, spinnerForCities.getSelectedItemPosition());
                 descriptionText.setText(result);
             }
         }
