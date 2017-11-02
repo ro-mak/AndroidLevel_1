@@ -3,6 +3,7 @@
     <string name="show_description_button">Какая погода в этом городе?</string>
     <string name="textview_dummy_text"></string>
     <string name="choose_a_city">Выберите город</string>
+    <string name="share_weather_button">Поделиться с друзьями</string>
     <string-array name="cities">
         <item>Москва</item>
         <item>Санкт-Петербург</item>
@@ -12,11 +13,11 @@
         <item>Пекин</item>
     </string-array>
     <string-array name="descriptions">
-        <item>+5 солнечно</item>
-        <item>+6 облачно</item>
-        <item>+10 туман</item>
-        <item>+3 облачно</item>
-        <item>+20 облачно</item>
-        <item>+18 солнечно</item>
+        <item>Москва +5 солнечно</item>
+        <item>Санкт-Петербург +6 облачно</item>
+        <item>Нью-Йорк +10 туман</item>
+        <item>Брюссель +3 облачно</item>
+        <item>Бангкок +20 облачно</item>
+        <item>Пекин +18 солнечно</item>
     </string-array>
 </resources>

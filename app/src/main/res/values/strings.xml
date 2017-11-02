@@ -3,20 +3,22 @@
     <string name="show_description_button">What\'s the weather here?</string>
     <string name="textview_dummy_text"></string>
     <string name="choose_a_city">Choose a city</string>
+    <string name="no_message_recieved_textview">No message recieved</string>
+    <string name="share_weather_button">Share with friends </string>
     <string-array name="cities">
         <item>Moscow</item>
         <item>Saint-Petersburg</item>
         <item>New-York</item>
-        <item>Brussel</item>
+        <item>Brussels</item>
         <item>Bangkok</item>
         <item>Beijing</item>
     </string-array>
     <string-array name="descriptions">
-        <item>+5 sunny</item>
-        <item>+6 cloudy</item>
-        <item>+10 fog</item>
-        <item>+3 cloudy</item>
-        <item>+20 cloudy</item>
-        <item>+18 sunny</item>
+        <item>Moscow +5 sunny</item>
+        <item>Saint-Petersburg +6 cloudy</item>
+        <item>New-York +10 fog</item>
+        <item>Brussels +3 cloudy</item>
+        <item>Bangkok +20 cloudy</item>
+        <item>Beijing +18 sunny</item>
     </string-array>
 </resources>
