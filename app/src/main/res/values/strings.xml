@@ -5,6 +5,8 @@
     <string name="choose_a_city">Choose a city</string>
     <string name="no_message_recieved_textview">No message recieved</string>
     <string name="share_weather_button">Share with friends </string>
+    <string name="weather_share_result_ok">Successfully shared or maybe there is an app to share weather with</string>
+    <string name="weather_share_cancel">Operation cancelled by user or there is no such app</string>
     <string-array name="cities">
         <item>Moscow</item>
         <item>Saint-Petersburg</item>

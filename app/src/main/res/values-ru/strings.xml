@@ -4,6 +4,8 @@
     <string name="textview_dummy_text"></string>
     <string name="choose_a_city">Выберите город</string>
     <string name="share_weather_button">Поделиться с друзьями</string>
+    <string name="weather_share_result_ok">Вы возможно поделились с друзьями погодой, по крайней мере у вас есть приложение для этого</string>
+    <string name="weather_share_cancel">Операция отменена пользователем или такого приложения нет</string>
     <string-array name="cities">
         <item>Москва</item>
         <item>Санкт-Петербург</item>

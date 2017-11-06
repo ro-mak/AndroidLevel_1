@@ -1,6 +1,7 @@
 package ru.makproductions.androidlevel_1;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -26,6 +27,8 @@ public class ShowWeather extends AppCompatActivity {
         shareWeatherButton.setOnClickListener(onClickListener);
     }
 
+
+
     private final View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -33,7 +36,13 @@ public class ShowWeather extends AppCompatActivity {
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
                 intent.putExtra(Intent.EXTRA_TEXT, weather);
-                startActivity(intent);
+                PackageManager packageManager = getPackageManager();
+                if(!packageManager.queryIntentActivities(intent,0).isEmpty()) {
+                    startActivity(intent);
+                    setResult(RESULT_OK);
+                }else{
+                    setResult(RESULT_CANCELED);
+                }
             }
         }
     };
