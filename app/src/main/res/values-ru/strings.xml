@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Прогнозик</string>
+    <string name="app_name">Даешь Апокалипсис!</string>
     <string name="show_description_button">Какая погода в этом городе?</string>
     <string name="textview_dummy_text"></string>
     <string name="choose_a_city">Выберите город</string>

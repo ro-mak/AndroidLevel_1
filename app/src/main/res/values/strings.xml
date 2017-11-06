@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">A Cute Forecast</string>
+    <string name="app_name">Hail the apocalypse!</string>
     <string name="show_description_button">What\'s the weather here?</string>
     <string name="textview_dummy_text"></string>
     <string name="choose_a_city">Choose a city</string>
