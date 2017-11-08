@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -16,6 +17,9 @@ public class MainActivity extends AppCompatActivity {
     private static final String WEATHER_MESSAGE = "weather_message";
     private static final String TOWN_NUMBER = "townNumber";
     private static final String TAG = "HeyHOO###############";
+    private static final String PRESSURE = "PRESSURE";
+    private static final String TOMMOROW_FORECAST = "TOMMOROW_FORECAST";
+    private static final String WEEK_FORECAST = "WEEK_FORECAST";
     private TextView descriptionText;
     private Button showDescriptionButton;
     private Spinner spinnerForCities;
@@ -31,15 +35,24 @@ public class MainActivity extends AppCompatActivity {
 
         saveTown = getPreferences(MODE_PRIVATE);
 
-
         setContentView(R.layout.activity_main);
 
         descriptionText = (TextView) findViewById(R.id.textview_description);
+        CheckBox checkBoxPressure = (CheckBox) findViewById(R.id.checkbox_pressure);
+        CheckBox checkBoxTommorowForecast = (CheckBox) findViewById(R.id.checkbox_tommorow_forecast);
+        CheckBox checkBoxWeekForecast = (CheckBox) findViewById(R.id.checkbox_week_forecast);
+
         if (savedInstanceState != null) {
             townSelected = savedInstanceState.getInt(TOWN_NUMBER);
             descriptionText.setText(savedInstanceState.getString(WEATHER_MESSAGE));
         } else {
             townSelected = saveTown.getInt(TOWN_NUMBER, 0);
+            pressure = saveTown.getBoolean(PRESSURE,false);
+            checkBoxPressure.setChecked(pressure);
+            tommorowForecast = saveTown.getBoolean(TOMMOROW_FORECAST,false);
+            checkBoxTommorowForecast.setChecked(tommorowForecast);
+            weekForecast = saveTown.getBoolean(WEEK_FORECAST,false);
+            checkBoxWeekForecast.setChecked(weekForecast);
         }
         showDescriptionButton = (Button) findViewById(R.id.show_description_button);
         spinnerForCities = (Spinner) findViewById(R.id.spinner_colours);
@@ -49,6 +62,11 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setLogo(R.drawable.geekbrains);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
 
+
+
+        checkBoxPressure.setOnClickListener(onClickListener);
+        checkBoxTommorowForecast.setOnClickListener(onClickListener);
+        checkBoxWeekForecast.setOnClickListener(onClickListener);
         showDescriptionButton.setOnClickListener(onClickListener);
     }
 
@@ -86,7 +104,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         Log.d(TAG, "onPause");
         super.onPause();
-        saveTown.edit().putInt(TOWN_NUMBER, spinnerForCities.getSelectedItemPosition()).apply();
+        saveTown.edit()
+                .putInt(TOWN_NUMBER, spinnerForCities.getSelectedItemPosition())
+                .putBoolean(PRESSURE,pressure)
+                .putBoolean(TOMMOROW_FORECAST,tommorowForecast)
+                .putBoolean(WEEK_FORECAST,weekForecast)
+                .apply();
     }
 
     @Override
@@ -97,18 +120,31 @@ public class MainActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
     }
 
+    private String result = "";
+    private boolean pressure;
+    private boolean tommorowForecast;
+    private boolean weekForecast;
+    // region ClickListener
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             if (view.getId() == R.id.show_description_button) {
-                String result = CitiesSpec.getWeatherDescription(MainActivity.this, spinnerForCities.getSelectedItemPosition());
+                result = CitiesSpec.getWeatherDescription(MainActivity.this, spinnerForCities.getSelectedItemPosition(), pressure, tommorowForecast, weekForecast);
                 descriptionText.setText(result);
                 Intent intent = new Intent(MainActivity.this, ShowWeather.class);
                 intent.putExtra(WEATHER_MESSAGE, result);
                 startActivityForResult(intent, SUCCESS_CODE);
             }
+            if (view.getId() == R.id.checkbox_pressure) {
+                pressure = !pressure;
+            } else if (view.getId() == R.id.checkbox_tommorow_forecast) {
+                tommorowForecast = !tommorowForecast;
+            } else if (view.getId() == R.id.checkbox_week_forecast) {
+                weekForecast = !weekForecast;
+            }
         }
     };
+//endregion
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
