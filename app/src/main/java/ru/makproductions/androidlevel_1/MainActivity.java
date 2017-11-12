@@ -4,12 +4,19 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import java.util.Arrays;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -22,7 +29,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String WEEK_FORECAST = "WEEK_FORECAST";
     private TextView descriptionText;
     private Button showDescriptionButton;
-    private Spinner spinnerForCities;
+   // private Spinner spinnerForCities;
+    private RecyclerView recyclerView;
     private SharedPreferences saveTown;
     private int townSelected;
     private final int SUCCESS_CODE = 666;
@@ -55,8 +63,16 @@ public class MainActivity extends AppCompatActivity {
             checkBoxWeekForecast.setChecked(weekForecast);
         }
         showDescriptionButton = (Button) findViewById(R.id.show_description_button);
-        spinnerForCities = (Spinner) findViewById(R.id.spinner_colours);
-        spinnerForCities.setSelection(townSelected);
+        //spinnerForCities = (Spinner) findViewById(R.id.spinner_colours);
+        recyclerView = (RecyclerView)findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
+        RVAdapter adapter = new RVAdapter(Arrays.asList(getResources().getStringArray(R.array.cities)));
+        recyclerView.setAdapter(adapter);
+
+
+       // spinnerForCities.setSelection(townSelected);
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setLogo(R.drawable.geekbrains);
@@ -68,6 +84,49 @@ public class MainActivity extends AppCompatActivity {
         checkBoxTommorowForecast.setOnClickListener(onClickListener);
         checkBoxWeekForecast.setOnClickListener(onClickListener);
         showDescriptionButton.setOnClickListener(onClickListener);
+    }
+
+         class RVAdapter extends RecyclerView.Adapter<RVAdapter.MyViewHolder>{
+                List<String> cities;
+                RVAdapter(List<String> cities){
+                    this.cities = cities;
+                }
+             @Override
+             public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                    View view = LayoutInflater.from(parent.getContext())
+                            .inflate(R.layout.category_list_item,parent,false);
+                    MyViewHolder myViewHolder = new MyViewHolder(view);
+                    view.setOnClickListener(myViewHolder);
+                 return myViewHolder;
+             }
+
+             @Override
+             public void onBindViewHolder(MyViewHolder holder, int position) {
+                    holder.city.setText(cities.get(position));
+             }
+
+             @Override
+             public int getItemCount() {
+                 return cities.size();
+             }
+
+             public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+                 TextView city;
+            MyViewHolder(View itemView){
+                super(itemView);
+                city = (TextView)itemView.findViewById(R.id.city);
+            }
+
+                 @Override
+                 public void onClick(View v) {
+                     townSelected = getAdapterPosition();
+                     result = CitiesSpec.getWeatherDescription(MainActivity.this,townSelected, pressure, tommorowForecast, weekForecast);
+                     descriptionText.setText(result);
+                     Intent intent = new Intent(MainActivity.this, ShowWeather.class);
+                     intent.putExtra(WEATHER_MESSAGE, result);
+                     startActivityForResult(intent, SUCCESS_CODE);
+                 }
+             }
     }
 
     @Override
@@ -105,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onPause");
         super.onPause();
         saveTown.edit()
-                .putInt(TOWN_NUMBER, spinnerForCities.getSelectedItemPosition())
+                .putInt(TOWN_NUMBER, townSelected)
                 .putBoolean(PRESSURE,pressure)
                 .putBoolean(TOMMOROW_FORECAST,tommorowForecast)
                 .putBoolean(WEEK_FORECAST,weekForecast)
@@ -115,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         Log.d(TAG, "OnSaveInstanceState");
-        outState.putInt(TOWN_NUMBER, spinnerForCities.getSelectedItemPosition());
+        outState.putInt(TOWN_NUMBER, townSelected);
         outState.putString(WEATHER_MESSAGE, descriptionText.getText().toString());
         super.onSaveInstanceState(outState);
     }
@@ -129,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             if (view.getId() == R.id.show_description_button) {
-                result = CitiesSpec.getWeatherDescription(MainActivity.this, spinnerForCities.getSelectedItemPosition(), pressure, tommorowForecast, weekForecast);
+                result = CitiesSpec.getWeatherDescription(MainActivity.this, townSelected, pressure, tommorowForecast, weekForecast);
                 descriptionText.setText(result);
                 Intent intent = new Intent(MainActivity.this, ShowWeather.class);
                 intent.putExtra(WEATHER_MESSAGE, result);
