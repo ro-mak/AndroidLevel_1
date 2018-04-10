@@ -5,56 +5,18 @@
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_marginTop="@dimen/standard_margin"
-        android:id="@+id/textview_choose_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="25sp"
-        android:text="@string/choose_a_city" />
-
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/recycler_view"
-        />
-
-    <Button
-        android:layout_marginRight="@dimen/standard_padding"
-        android:layout_marginLeft="@dimen/standard_padding"
-        android:layout_marginTop="@dimen/standard_margin"
-        android:id="@+id/show_description_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/show_description_button"/>
-    <TextView
-        android:layout_marginTop="@dimen/standard_margin"
-        android:id="@+id/textview_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/textview_dummy_text"/>
-    <RelativeLayout
+    <fragment
+        android:id="@+id/fragment_list"
+        class="ru.makproductions.androidlevel_1.WeatherListFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <CheckBox
-        android:id="@+id/checkbox_pressure"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/pressure"/>
-    <CheckBox
-        android:id="@+id/checkbox_tommorow_forecast"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/tomorrow_forecast"
-        android:layout_below="@+id/checkbox_pressure"
-        />
-    <CheckBox
-        android:id="@+id/checkbox_week_forecast"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/week_forecast"
-        android:layout_below="@id/checkbox_tommorow_forecast"
-        />
-    </RelativeLayout>
+    </fragment>
+
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </FrameLayout>
 
 </LinearLayout>
