@@ -9,7 +9,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:fontFamily="@font/project_font"
         android:text="@string/no_message_recieved_textview" />
     <Button
         android:layout_gravity="center"

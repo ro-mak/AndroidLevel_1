@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.graphics.*;
 
 public class ShowWeatherFragment extends Fragment {
 
@@ -25,6 +26,8 @@ public class ShowWeatherFragment extends Fragment {
 
         Button shareWeatherButton = (Button) view.findViewById(R.id.share_weather_button);
         shareWeatherButton.setOnClickListener(onClickListener);
+		UtilMethods.changeFontTextView(showWeatherTextView,getActivity());
+		UtilMethods.changeFontTextView(shareWeatherButton,getActivity());
         return view;
     }
 

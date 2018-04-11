@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
+import android.graphics.*;
 
 public class WeatherListFragment extends Fragment {
     private static final String WEATHER_MESSAGE = "weather_message";
@@ -26,7 +27,6 @@ public class WeatherListFragment extends Fragment {
     private static final String PRESSURE = "PRESSURE";
     private static final String TOMMOROW_FORECAST = "TOMMOROW_FORECAST";
     private static final String WEEK_FORECAST = "WEEK_FORECAST";
-    private TextView descriptionText;
     private Button showDescriptionButton;
     private SharedPreferences saveTown;
     private int townSelected;
@@ -56,13 +56,11 @@ public class WeatherListFragment extends Fragment {
         weatherRecyclerView.setAdapter(new RVAdapter(Arrays.asList(getResources().getStringArray(R.array.cities))));
         saveTown = getActivity().getPreferences(MODE_PRIVATE);
 
-        descriptionText = (TextView) rootView.findViewById(R.id.textview_description);
         CheckBox checkBoxPressure = (CheckBox) rootView.findViewById(R.id.checkbox_pressure);
         CheckBox checkBoxTommorowForecast = (CheckBox) rootView.findViewById(R.id.checkbox_tommorow_forecast);
         CheckBox checkBoxWeekForecast = (CheckBox) rootView.findViewById(R.id.checkbox_week_forecast);
         if (savedInstanceState != null) {
             townSelected = savedInstanceState.getInt(TOWN_NUMBER);
-            descriptionText.setText(savedInstanceState.getString(WEATHER_MESSAGE));
         } else {
             townSelected = saveTown.getInt(TOWN_NUMBER, 0);
             pressure = saveTown.getBoolean(PRESSURE, false);
@@ -75,19 +73,34 @@ public class WeatherListFragment extends Fragment {
         showDescriptionButton = (Button) rootView.findViewById(R.id.show_description_button);
         weatherRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         weatherRecyclerView.setHasFixedSize(true);
+		
         checkBoxPressure.setOnClickListener(onClickListener);
         checkBoxTommorowForecast.setOnClickListener(onClickListener);
         checkBoxWeekForecast.setOnClickListener(onClickListener);
         showDescriptionButton.setOnClickListener(onClickListener);
+		UtilMethods.changeFontTextView(checkBoxPressure,getActivity());
+		UtilMethods.changeFontTextView(checkBoxTommorowForecast,getActivity());
+		UtilMethods.changeFontTextView(checkBoxWeekForecast,getActivity());
+		UtilMethods.changeFontTextView(showDescriptionButton,getActivity());
         return rootView;
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt(TOWN_NUMBER, townSelected);
-        outState.putString(WEATHER_MESSAGE, descriptionText.getText().toString());
+		outState.putInt(TOWN_NUMBER, townSelected);
+		
     }
+
+	@Override
+	public void onPause()
+	{
+		super.onPause();
+		saveTown.edit().putInt(TOWN_NUMBER,townSelected);
+		saveTown.edit().commit();
+		
+	}
+	
 
     private class RVAdapter extends RecyclerView.Adapter<RVAdapter.MyViewHolder> {
         List<String> cities;
@@ -119,6 +132,7 @@ public class WeatherListFragment extends Fragment {
             MyViewHolder(LayoutInflater inflater,ViewGroup parent) {
                 super(inflater.inflate(R.layout.category_list_item,parent,false));
                 city = (TextView) itemView.findViewById(R.id.city);
+			    UtilMethods.changeFontTextView(city,getActivity());
                 itemView.setOnClickListener(this);
             }
 
@@ -126,13 +140,7 @@ public class WeatherListFragment extends Fragment {
             public void onClick(View v) {
                 townSelected = getAdapterPosition();
                 result = CitiesSpec.getWeatherDescription(getActivity(), townSelected, pressure, tommorowForecast, weekForecast);
-                descriptionText.setText(result);
-//                     startActivityForResult(intent, SUCCESS_CODE);
-                ShowWeatherFragment showWeatherFragment = new ShowWeatherFragment();
-                showWeatherFragment.setWeather(result);
-                android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragment_container, showWeatherFragment);
-                transaction.commit();
+                weatherListListener.onListItemClick(result);
             }
         }
     }
@@ -142,13 +150,9 @@ public class WeatherListFragment extends Fragment {
         public void onClick(View view) {
             if (view.getId() == R.id.show_description_button) {
                 result = CitiesSpec.getWeatherDescription(getActivity(), townSelected, pressure, tommorowForecast, weekForecast);
-                descriptionText.setText(result);
+               
             }
-            ShowWeatherFragment showWeatherFragment = new ShowWeatherFragment();
-            showWeatherFragment.setWeather(result);
-            android.support.v4.app.FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.fragment_container, showWeatherFragment);
-            transaction.commit();
+            weatherListListener.onListItemClick(result);
             if (view.getId() == R.id.checkbox_pressure) {
                 pressure = !pressure;
             } else if (view.getId() == R.id.checkbox_tommorow_forecast) {

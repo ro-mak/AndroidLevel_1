@@ -1,10 +1,11 @@
 package ru.makproductions.androidlevel_1;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-
-import android.util.Log;
+import android.content.*;
+import android.os.*;
+import android.support.v7.app.*;
+import android.util.*;
+import android.text.*;
+import android.text.style.*;
 
 
 
@@ -19,9 +20,11 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
         Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setLogo(R.drawable.geekbrains);
-        getSupportActionBar().setDisplayUseLogoEnabled(true);
+		ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setLogo(R.drawable.geekbrains);
+        actionBar.setDisplayUseLogoEnabled(true);
+		
     }
 
     @Override
@@ -71,7 +74,12 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
     }
 
     @Override
-    public void onListItemClick(int id) {
-
+    public void onListItemClick(String result) {
+		ShowWeatherFragment showWeatherFragment = new ShowWeatherFragment();
+		showWeatherFragment.setWeather(result);
+		android.support.v4.app.FragmentTransaction transaction = this.getSupportFragmentManager().beginTransaction();
+		transaction.replace(R.id.fragment_container, showWeatherFragment);
+		transaction.addToBackStack(null);
+		transaction.commit();
     }
 }
