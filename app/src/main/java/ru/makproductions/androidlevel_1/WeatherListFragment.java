@@ -46,7 +46,7 @@ public class WeatherListFragment extends Fragment
 
     private WeatherListListener weatherListListener;
 
-	
+
 
     @Override
     public void onAttach(Context context)
@@ -113,12 +113,12 @@ public class WeatherListFragment extends Fragment
 	public void onDestroy()
 	{
 		Log.d(TAG, "onPauseeee!!!!!!");
-
-		saveTown.edit().putInt(TOWN_NUMBER, townSelected);
-		saveTown.edit().putBoolean(PRESSURE, pressure);
-		saveTown.edit().putBoolean(WEEK_FORECAST, weekForecast);
-		saveTown.edit().putBoolean(TOMMOROW_FORECAST, tommorowForecast);
-		saveTown.edit().commit();
+        SharedPreferences.Editor editor = saveTown.edit();
+		editor.putInt(TOWN_NUMBER, townSelected);
+		editor.putBoolean(PRESSURE, pressure);
+		editor.putBoolean(WEEK_FORECAST, weekForecast);
+		editor.putBoolean(TOMMOROW_FORECAST, tommorowForecast);
+		editor.commit();
 		super.onDestroy();
 
 	}

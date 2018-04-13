@@ -8,7 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 	<style name="AppTheme.Launcher">
-		<item name="android:windowBackground">@drawable/apocalypse</item>
+		<item name="android:windowBackground">@drawable/apocalypse_launch</item>
 	</style>
 
 </resources>

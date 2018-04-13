@@ -23,8 +23,12 @@ public class ShowWeatherFragment extends Fragment
 
 	public static ShowWeatherFragment init(Bundle bundle)
 	{
+
 		ShowWeatherFragment showWeatherFragment = new ShowWeatherFragment();
-		showWeatherFragment.setArguments(bundle);
+		if (bundle != null)
+		{
+			showWeatherFragment.setArguments(bundle);
+		}
 		return showWeatherFragment;
 	}
     @Nullable
@@ -33,7 +37,8 @@ public class ShowWeatherFragment extends Fragment
 	{
         View view = inflater.inflate(R.layout.show_weather_fragment, container, false);
         TextView showWeatherTextView = (TextView) view.findViewById(R.id.show_weather_textview);
-		weather_message = this.getArguments().getString(WEATHER_MESSAGE);
+		Bundle args = this.getArguments();
+		if (args != null) weather_message = args.getString(WEATHER_MESSAGE);
         showWeatherTextView.setText(weather_message);
 
         Button shareWeatherButton = (Button) view.findViewById(R.id.share_weather_button);
