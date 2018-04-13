@@ -11,46 +11,65 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.graphics.*;
+import android.app.*;
+import org.apache.http.conn.util.*;
 
-public class ShowWeatherFragment extends Fragment {
+public class ShowWeatherFragment extends Fragment
+{
 
-    private String weather;
+    private String weather_message;
 
+	private static final String WEATHER_MESSAGE = "weather_message";
 
+	public static ShowWeatherFragment init(Bundle bundle)
+	{
+		ShowWeatherFragment showWeatherFragment = new ShowWeatherFragment();
+		showWeatherFragment.setArguments(bundle);
+		return showWeatherFragment;
+	}
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_show_weather, container, false);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+	{
+        View view = inflater.inflate(R.layout.show_weather_fragment, container, false);
         TextView showWeatherTextView = (TextView) view.findViewById(R.id.show_weather_textview);
-        showWeatherTextView.setText(weather);
+		weather_message = this.getArguments().getString(WEATHER_MESSAGE);
+        showWeatherTextView.setText(weather_message);
 
         Button shareWeatherButton = (Button) view.findViewById(R.id.share_weather_button);
         shareWeatherButton.setOnClickListener(onClickListener);
-		UtilMethods.changeFontTextView(showWeatherTextView,getActivity());
-		UtilMethods.changeFontTextView(shareWeatherButton,getActivity());
+		Activity activity = getActivity();
+		UtilMethods.changeFontTextView(showWeatherTextView, activity);
+		UtilMethods.changeFontTextView(shareWeatherButton, activity);
         return view;
     }
 
-    public void setWeather(String weather){
-        this.weather = weather;
+    public void setWeather(String weather)
+	{
+        this.weather_message = weather;
     }
 
 
     private final View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
-        public void onClick(View view) {
-            if (view.getId() == R.id.share_weather_button) {
+        public void onClick(View view)
+		{
+            if (view.getId() == R.id.share_weather_button)
+			{
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_TEXT, weather);
-//                PackageManager packageManager = getPackageManager();
-//                if(!packageManager.queryIntentActivities(intent,0).isEmpty()) {
-//                    startActivity(intent);
-//                    setResult(RESULT_OK);
-//                }else{
-//                    setResult(RESULT_CANCELED);
-//                }
-//            }
+                intent.putExtra(Intent.EXTRA_TEXT, weather_message);
+				Activity activity = getActivity();
+                PackageManager packageManager = activity.getPackageManager();
+                if (!packageManager.queryIntentActivities(intent, 0).isEmpty())
+				{
+                    startActivity(intent);
+                    activity.setResult(activity.RESULT_OK);
+                }
+				else
+				{
+                    activity.setResult(activity.RESULT_CANCELED);
+                }
             }
         }
     };

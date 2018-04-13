@@ -8,23 +8,25 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class ShowWeather extends AppCompatActivity {
+public class ShowWeatherActivity extends AppCompatActivity {
 
+	
     private static final String WEATHER_MESSAGE = "weather_message";
+	private static final String WEATHER_BUNDLE ="weather_bundle";
+	
     private String weather;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_weather);
-        TextView showWeatherTextView = (TextView)findViewById(R.id.show_weather_textview);
-        Intent intent = getIntent();
-        if(intent != null){
-            weather = intent.getStringExtra(WEATHER_MESSAGE);
-            showWeatherTextView.setText(weather);
-        }
-        Button shareWeatherButton = (Button)findViewById(R.id.share_weather_button);
-        shareWeatherButton.setOnClickListener(onClickListener);
+		setContentView(R.layout.activity_show_weather);
+		
+		ShowWeatherFragment showWeatherFragment = ShowWeatherFragment.init(getIntent().getBundleExtra(WEATHER_BUNDLE));
+		
+		android.support.v4.app.FragmentTransaction transaction = this.getSupportFragmentManager().beginTransaction();
+		transaction.replace(R.id.show_weather, showWeatherFragment);
+		transaction.commit();
+   
     }
 
 

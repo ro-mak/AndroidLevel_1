@@ -6,6 +6,8 @@ import android.support.v7.app.*;
 import android.util.*;
 import android.text.*;
 import android.text.style.*;
+import android.view.*;
+import android.support.v4.app.*;
 
 
 
@@ -13,13 +15,18 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
 
     private static final String TAG = "HeyHOO###############";
     private final int SUCCESS_CODE = 666;
+	private static final String WEATHER_MESSAGE = "weather_message";
+
+	private static final String WEATHER_BUNDLE ="weather_bundle";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+		setTheme(R.style.AppTheme);
         Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+		
 		ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setLogo(R.drawable.geekbrains);
@@ -75,11 +82,24 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
 
     @Override
     public void onListItemClick(String result) {
-		ShowWeatherFragment showWeatherFragment = new ShowWeatherFragment();
-		showWeatherFragment.setWeather(result);
-		android.support.v4.app.FragmentTransaction transaction = this.getSupportFragmentManager().beginTransaction();
-		transaction.replace(R.id.fragment_container, showWeatherFragment);
-		transaction.addToBackStack(null);
-		transaction.commit();
+		showWeather(this,result);
     }
+	public static void showWeather(FragmentActivity activity, String result){
+		View fragmentContainer = activity.findViewById(R.id.fragment_container);
+		if(fragmentContainer!=null){
+			ShowWeatherFragment showWeatherFragment = new ShowWeatherFragment();
+			
+			showWeatherFragment.setWeather(result);
+			android.support.v4.app.FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
+			transaction.replace(R.id.fragment_container, showWeatherFragment);
+			transaction.addToBackStack(null);
+			transaction.commit();
+		}else{
+			Intent intent = new Intent(activity,ShowWeatherActivity.class);
+			Bundle bundle = new Bundle(); 
+			bundle.putString(WEATHER_MESSAGE,result);
+			intent.putExtra(WEATHER_BUNDLE,bundle);
+			activity.startActivity(intent);
+		}
+	}
 }

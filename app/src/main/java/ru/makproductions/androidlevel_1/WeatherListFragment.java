@@ -19,11 +19,18 @@ import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
 import android.graphics.*;
+import android.view.*;
+import android.util.*;
+import android.content.*;
+import android.app.*;
+import android.support.v7.app.*;
+import android.support.v4.app.*;
 
-public class WeatherListFragment extends Fragment {
+public class WeatherListFragment extends Fragment
+{
     private static final String WEATHER_MESSAGE = "weather_message";
     private static final String TOWN_NUMBER = "townNumber";
-    private static final String TAG = "HeyHOO###############";
+    private static final String TAG = "WeatherList###############";
     private static final String PRESSURE = "PRESSURE";
     private static final String TOMMOROW_FORECAST = "TOMMOROW_FORECAST";
     private static final String WEEK_FORECAST = "WEEK_FORECAST";
@@ -39,15 +46,19 @@ public class WeatherListFragment extends Fragment {
 
     private WeatherListListener weatherListListener;
 
+	
+
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(Context context)
+	{
         weatherListListener = (WeatherListListener) context;
         super.onAttach(context);
     }
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+	{
         View rootView = inflater.inflate(R.layout.weather_list_fragment, container, false);
         RecyclerView weatherRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -59,9 +70,12 @@ public class WeatherListFragment extends Fragment {
         CheckBox checkBoxPressure = (CheckBox) rootView.findViewById(R.id.checkbox_pressure);
         CheckBox checkBoxTommorowForecast = (CheckBox) rootView.findViewById(R.id.checkbox_tommorow_forecast);
         CheckBox checkBoxWeekForecast = (CheckBox) rootView.findViewById(R.id.checkbox_week_forecast);
-        if (savedInstanceState != null) {
+        if (savedInstanceState != null)
+		{
             townSelected = savedInstanceState.getInt(TOWN_NUMBER);
-        } else {
+        }
+		else
+		{
             townSelected = saveTown.getInt(TOWN_NUMBER, 0);
             pressure = saveTown.getBoolean(PRESSURE, false);
             checkBoxPressure.setChecked(pressure);
@@ -73,71 +87,100 @@ public class WeatherListFragment extends Fragment {
         showDescriptionButton = (Button) rootView.findViewById(R.id.show_description_button);
         weatherRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         weatherRecyclerView.setHasFixedSize(true);
-		
+
         checkBoxPressure.setOnClickListener(onClickListener);
         checkBoxTommorowForecast.setOnClickListener(onClickListener);
         checkBoxWeekForecast.setOnClickListener(onClickListener);
         showDescriptionButton.setOnClickListener(onClickListener);
-		UtilMethods.changeFontTextView(checkBoxPressure,getActivity());
-		UtilMethods.changeFontTextView(checkBoxTommorowForecast,getActivity());
-		UtilMethods.changeFontTextView(checkBoxWeekForecast,getActivity());
-		UtilMethods.changeFontTextView(showDescriptionButton,getActivity());
+		UtilMethods.changeFontTextView(checkBoxPressure, getActivity());
+		UtilMethods.changeFontTextView(checkBoxTommorowForecast, getActivity());
+		UtilMethods.changeFontTextView(checkBoxWeekForecast, getActivity());
+		UtilMethods.changeFontTextView(showDescriptionButton, getActivity());
+
         return rootView;
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(Bundle outState)
+	{
         super.onSaveInstanceState(outState);
 		outState.putInt(TOWN_NUMBER, townSelected);
-		
+
     }
 
-	@Override
-	public void onPause()
-	{
-		super.onPause();
-		saveTown.edit().putInt(TOWN_NUMBER,townSelected);
-		saveTown.edit().commit();
-		
-	}
-	
 
-    private class RVAdapter extends RecyclerView.Adapter<RVAdapter.MyViewHolder> {
+	@Override
+	public void onDestroy()
+	{
+		Log.d(TAG, "onPauseeee!!!!!!");
+
+		saveTown.edit().putInt(TOWN_NUMBER, townSelected);
+		saveTown.edit().putBoolean(PRESSURE, pressure);
+		saveTown.edit().putBoolean(WEEK_FORECAST, weekForecast);
+		saveTown.edit().putBoolean(TOMMOROW_FORECAST, tommorowForecast);
+		saveTown.edit().commit();
+		super.onDestroy();
+
+	}
+
+	@Override
+	public void onResume()
+	{
+		// TODO: Implement this method
+		pressure = saveTown.getBoolean(PRESSURE, false);
+		weekForecast = saveTown.getBoolean(WEEK_FORECAST, false);
+		tommorowForecast = saveTown.getBoolean(TOMMOROW_FORECAST, false);
+		townSelected = saveTown.getInt(TOWN_NUMBER, 0);
+		super.onResume();
+	}
+
+
+
+    private class RVAdapter extends RecyclerView.Adapter<RVAdapter.MyViewHolder>
+	{
         List<String> cities;
 
-        RVAdapter(List<String> cities) {
+        RVAdapter(List<String> cities)
+		{
             this.cities = cities;
         }
 
         @Override
-        public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+		{
             LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-            MyViewHolder myViewHolder = new MyViewHolder(inflater,parent);
+            MyViewHolder myViewHolder = new MyViewHolder(inflater, parent);
             return myViewHolder;
         }
 
         @Override
-        public void onBindViewHolder(MyViewHolder holder, int position) {
+        public void onBindViewHolder(MyViewHolder holder, int position)
+		{
             holder.city.setText(cities.get(position));
         }
 
         @Override
-        public int getItemCount() {
+        public int getItemCount()
+		{
             return cities.size();
         }
 
-        class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+		{
             private TextView city;
 
-            MyViewHolder(LayoutInflater inflater,ViewGroup parent) {
-                super(inflater.inflate(R.layout.category_list_item,parent,false));
+            MyViewHolder(LayoutInflater inflater, ViewGroup parent)
+			{
+                super(inflater.inflate(R.layout.category_list_item, parent, false));
                 city = (TextView) itemView.findViewById(R.id.city);
-			    UtilMethods.changeFontTextView(city,getActivity());
+			    UtilMethods.changeFontTextView(city, getActivity());
                 itemView.setOnClickListener(this);
+
             }
 
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+			{
                 townSelected = getAdapterPosition();
                 result = CitiesSpec.getWeatherDescription(getActivity(), townSelected, pressure, tommorowForecast, weekForecast);
                 weatherListListener.onListItemClick(result);
@@ -145,19 +188,26 @@ public class WeatherListFragment extends Fragment {
         }
     }
 
-    View.OnClickListener onClickListener = new View.OnClickListener() {
+	private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
-        public void onClick(View view) {
-            if (view.getId() == R.id.show_description_button) {
+        public void onClick(View view)
+		{
+            if (view.getId() == R.id.show_description_button)
+			{
                 result = CitiesSpec.getWeatherDescription(getActivity(), townSelected, pressure, tommorowForecast, weekForecast);
-               
+				weatherListListener.onListItemClick(result);
             }
-            weatherListListener.onListItemClick(result);
-            if (view.getId() == R.id.checkbox_pressure) {
+
+            if (view.getId() == R.id.checkbox_pressure)
+			{
                 pressure = !pressure;
-            } else if (view.getId() == R.id.checkbox_tommorow_forecast) {
+            }
+			else if (view.getId() == R.id.checkbox_tommorow_forecast)
+			{
                 tommorowForecast = !tommorowForecast;
-            } else if (view.getId() == R.id.checkbox_week_forecast) {
+            }
+			else if (view.getId() == R.id.checkbox_week_forecast)
+			{
                 weekForecast = !weekForecast;
             }
         }
