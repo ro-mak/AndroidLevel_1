@@ -8,6 +8,7 @@ import android.text.*;
 import android.text.style.*;
 import android.view.*;
 import android.support.v4.app.*;
+import android.widget.*;
 
 
 
@@ -32,6 +33,9 @@ public class MainActivity extends AppCompatActivity implements WeatherListListen
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(R.layout.logo_layout);
+		View customView = actionBar.getCustomView();
+		TextView titleView = (TextView) customView.findViewById(R.id.title);
+		UtilMethods.changeFontTextView(titleView, this);
     }
 
     @Override

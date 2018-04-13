@@ -60,12 +60,14 @@ public class WeatherListFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
 	{
         View rootView = inflater.inflate(R.layout.weather_list_fragment, container, false);
+		Activity activity = getActivity();
         RecyclerView weatherRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+		TextView chooseText = (TextView)rootView.findViewById(R.id.textview_choose_text);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(VERTICAL);
         weatherRecyclerView.setLayoutManager(layoutManager);
         weatherRecyclerView.setAdapter(new RVAdapter(Arrays.asList(getResources().getStringArray(R.array.cities))));
-        saveTown = getActivity().getPreferences(MODE_PRIVATE);
+        saveTown = activity.getPreferences(MODE_PRIVATE);
 
         CheckBox checkBoxPressure = (CheckBox) rootView.findViewById(R.id.checkbox_pressure);
         CheckBox checkBoxTommorowForecast = (CheckBox) rootView.findViewById(R.id.checkbox_tommorow_forecast);
@@ -92,10 +94,11 @@ public class WeatherListFragment extends Fragment
         checkBoxTommorowForecast.setOnClickListener(onClickListener);
         checkBoxWeekForecast.setOnClickListener(onClickListener);
         showDescriptionButton.setOnClickListener(onClickListener);
-		UtilMethods.changeFontTextView(checkBoxPressure, getActivity());
-		UtilMethods.changeFontTextView(checkBoxTommorowForecast, getActivity());
-		UtilMethods.changeFontTextView(checkBoxWeekForecast, getActivity());
-		UtilMethods.changeFontTextView(showDescriptionButton, getActivity());
+		UtilMethods.changeFontTextView(chooseText,activity);
+		UtilMethods.changeFontTextView(checkBoxPressure, activity);
+		UtilMethods.changeFontTextView(checkBoxTommorowForecast, activity);
+		UtilMethods.changeFontTextView(checkBoxWeekForecast, activity);
+		UtilMethods.changeFontTextView(showDescriptionButton, activity);
 
         return rootView;
     }
